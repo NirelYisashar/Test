@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeoPulse Landing Page</title>
+<style>
+    /* Reset */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Orbitron', sans-serif; }
+
+    body {
+        overflow: hidden;
+        background: #0f0c29;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        color: #fff;
+        text-align: center;
+        position: relative;
+    }
+
+    /* Logo */
+    .logo { font-size:3rem; color:#00fff7; text-shadow:0 0 10px #00fff7, 0 0 20px #00fff7; margin-bottom:20px; }
+
+    /* Name */
+    .name { font-size:2.5rem; color:#ff00ff; text-shadow:0 0 10px #ff00ff, 0 0 20px #ff00ff; margin-bottom:10px; }
+
+    /* Description */
+    .description { font-size:1.2rem; color:#00ff94; text-shadow:0 0 5px #00ff94; margin-bottom:30px; max-width:600px; }
+
+    /* Social buttons */
+    .social-buttons { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; z-index:1; position:relative; }
+    .social-buttons a {
+        display:inline-block;
+        padding:12px 20px;
+        border-radius:8px;
+        color:#fff;
+        text-decoration:none;
+        font-weight:bold;
+        transition:0.3s;
+        background:#111;
+        box-shadow:0 0 5px #fff, 0 0 10px #fff inset;
+    }
+    .social-buttons a:hover {
+        box-shadow:0 0 15px #00fff7, 0 0 30px #00fff7 inset;
+        transform: translateY(-3px);
+    }
+
+    /* Particle canvas */
+    canvas { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="logo">💻 NeoPulse</div>
+<div class="name">Your Name / Brand</div>
+<div class="description">Welcome to my futuristic cyberpunk landing page. Connect with me on social media below.</div>
+
+<div class="social-buttons">
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://tiktok.com" target="_blank">TikTok</a>
+    <!-- Add more buttons here -->
+</div>
+
+<script>
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+});
+
+const particles = [];
+const numParticles = 120;
+
+for(let i=0;i<numParticles;i++){
+    particles.push({
+        x: Math.random()*width,
+        y: Math.random()*height,
+        radius: Math.random()*2+1,
+        dx: (Math.random()-0.5)*1.5,
+        dy: (Math.random()-0.5)*1.5
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,width,height);
+    for(let i=0;i<numParticles;i++){
+        const p = particles[i];
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if(p.x<0||p.x>width) p.dx*=-1;
+        if(p.y<0||p.y>height) p.dy*=-1;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+        ctx.fillStyle = '#00fff7';
+        ctx.fill();
+    }
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
